@@ -23,8 +23,16 @@ import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
+import com.vk.sdk.api.VKApi;
+import com.vk.sdk.api.VKApiConst;
 import com.vk.sdk.api.VKError;
+import com.vk.sdk.api.VKParameters;
+import com.vk.sdk.api.VKRequest;
+import com.vk.sdk.api.VKResponse;
+import com.vk.sdk.api.model.VKAttachments;
+import com.vk.sdk.api.model.VKWallPostResult;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -180,6 +188,25 @@ public class LoginActivity extends FragmentActivity {
 
         }
 
+        void makePost(VKAttachments att, String msg, final int ownerId) {
+            VKParameters parameters = new VKParameters();
+            parameters.put(VKApiConst.OWNER_ID, String.valueOf(ownerId));
+            parameters.put(VKApiConst.ATTACHMENTS, att);
+            parameters.put(VKApiConst.MESSAGE, msg);
+            VKRequest post = VKApi.wall().post(parameters);
+            post.setModelClass(VKWallPostResult.class);
+            post.executeWithListener(new VKRequest.VKRequestListener() {
+                @Override
+                public void onComplete(VKResponse response) {
+                    // post was added
+                }
+                @Override
+                public void onError(VKError error) {
+                    // error
+                }
+            });
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_logout, container, false);
@@ -203,6 +230,18 @@ public class LoginActivity extends FragmentActivity {
                     editor.putString("lastdate", date_view.getText().toString());
                     editor.apply();
                     editor.commit();
+
+                    Date currentTime = Calendar.getInstance().getTime();
+
+
+                    String t = text.getText().toString();
+
+                    VKAttachments vka = new VKAttachments();
+                    String myIDasString = VKSdk.getAccessToken().userId;
+                    int myID = Integer.parseInt(myIDasString);
+
+
+                    makePost(vka, "testing is 300 bucks", myID);
                 }});
 
             v.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
