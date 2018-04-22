@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
@@ -198,7 +199,10 @@ public class LoginActivity extends FragmentActivity {
             post.executeWithListener(new VKRequest.VKRequestListener() {
                 @Override
                 public void onComplete(VKResponse response) {
-                    // post was added
+                    Toast toast = Toast.makeText(getContext(),
+                            "Вы не заходили в это приложение более суток! Похоже вам " +
+                                    "черезвыйчайно плохо! Ваше завещание уже опубликовано.", Toast.LENGTH_SHORT);
+                    toast.show();
                 }
                 @Override
                 public void onError(VKError error) {
@@ -232,6 +236,10 @@ public class LoginActivity extends FragmentActivity {
             if (hasVisited) {
                 text.setText(bd.getString("textlastword", ""));
                 date_view.setText(bd.getString("lastdate", ""));
+
+               // if (bd.getString("lastdate", "")){
+
+               // }
             }
 
             date_view = v.findViewById(R.id.textView);
