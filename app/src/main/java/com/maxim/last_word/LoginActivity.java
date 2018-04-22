@@ -231,6 +231,7 @@ public class LoginActivity extends FragmentActivity {
                     editor.apply();
                     editor.commit();
 
+
                     Date currentTime = Calendar.getInstance().getTime();
 
 
