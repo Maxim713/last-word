@@ -242,10 +242,12 @@ public class LoginActivity extends FragmentActivity {
                     editor.commit();
 
 
+
                     // currentTime = checkDate
                     Date currentTime = Calendar.getInstance().getTime();
                     long currentMillis = Calendar.getInstance().getTimeInMillis();
                     Date checkDate = new Date (currentMillis);
+
 
 
                     String t = text.getText().toString();
