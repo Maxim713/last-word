@@ -33,6 +33,9 @@ import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKWallPostResult;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -188,7 +191,38 @@ public class LoginActivity extends FragmentActivity {
             super();
 
         }
+        public String temp;
+        String getName(){
+            String token = VKSdk.getAccessToken().accessToken;
+            VKParameters parameters = VKParameters.from(VKApiConst.ACCESS_TOKEN, token);
 
+            VKRequest request = new VKRequest("account.getProfileInfo", parameters);
+
+            request.executeWithListener(new VKRequest.VKRequestListener()
+            {
+                @Override
+                public void onComplete(VKResponse response) {
+                    super.onComplete(response);
+
+                    String status = "";
+
+                    try {
+
+                        JSONObject jsonObject = response.json.getJSONObject("response");
+
+                        String first_name = jsonObject.getString("first_name");
+                        String last_name = jsonObject.getString("last_name");
+                        String screen_name = jsonObject.getString("screen_name");
+                        status = jsonObject.getString("status");
+                        temp = first_name + " " + last_name;
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            });
+            return temp;
+         }
         void makePost(VKAttachments att, String msg, final int ownerId) {
             VKParameters parameters = new VKParameters();
             parameters.put(VKApiConst.OWNER_ID, String.valueOf(ownerId));
@@ -220,7 +254,7 @@ public class LoginActivity extends FragmentActivity {
             date_view = v.findViewById(R.id.textView);
 
             try {
-                text.setText(bd.getString("textlastword", ""));
+                text.setText((bd.getString("textlastword", "")).replace("name", getName()));
                 long lastd = bd.getLong("lastdate", 0);
                 Date last = new Date(lastd);
                 date_view.setText(last.toString());
