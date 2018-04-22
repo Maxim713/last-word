@@ -140,13 +140,11 @@ public class LoginActivity extends FragmentActivity {
             @Override
             public void onResult(VKAccessToken res) {
                 // User passed Authorization
-                //startMainActivity();
                 showLogout();
             }
 
             @Override
             public void onError(VKError error) {
-                //startMainActivity();
                 // User didn't pass Authorization
             }
         };
@@ -242,8 +240,8 @@ public class LoginActivity extends FragmentActivity {
             date_view = v.findViewById(R.id.textView);
 
             try {
-                //text.setText((bd.getString("textlastword", "")).replace("name", getName()));
-                text.setText(bd.getString("textlastword", ""));
+                text.setText((bd.getString("textlastword", "")).replace("name", getName()));
+                //text.setText(bd.getString("textlastword", ""));
                 long lastd = bd.getLong("lastdate", 0);
                 Date last = new Date(lastd);
                 date_view.setText(last.toString());
