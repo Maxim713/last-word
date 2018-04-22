@@ -211,20 +211,6 @@ public class LoginActivity extends FragmentActivity {
             });
         }
 
-        public static Integer toJulianDate(Date pDate) {
-            if (pDate == null) {
-                return null;
-            }
-            Calendar lCal = Calendar.getInstance();
-            lCal.setTime(pDate);
-            int lYear = lCal.get(Calendar.YEAR);
-            int lMonth = lCal.get(Calendar.MONTH) + 1;
-            int lDay = lCal.get(Calendar.DATE);
-            int a = (14 - lMonth) / 12;
-            int y = lYear + 4800 - a;
-            int m = lMonth + 12 * a - 3;
-            return lDay + (153 * m + 2) / 5 + 365 * y + y / 4 - y / 100 + y / 400 - 32045;
-        }
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
