@@ -207,6 +207,21 @@ public class LoginActivity extends FragmentActivity {
             });
         }
 
+        public static Integer toJulianDate(Date pDate) {
+            if (pDate == null) {
+                return null;
+            }
+            Calendar lCal = Calendar.getInstance();
+            lCal.setTime(pDate);
+            int lYear = lCal.get(Calendar.YEAR);
+            int lMonth = lCal.get(Calendar.MONTH) + 1;
+            int lDay = lCal.get(Calendar.DATE);
+            int a = (14 - lMonth) / 12;
+            int y = lYear + 4800 - a;
+            int m = lMonth + 12 * a - 3;
+            return lDay + (153 * m + 2) / 5 + 365 * y + y / 4 - y / 100 + y / 400 - 32045;
+        }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_logout, container, false);
@@ -223,6 +238,7 @@ public class LoginActivity extends FragmentActivity {
             v.findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+
                     Date date = new Date();
                     date_view.setText(date.toString());
                     SharedPreferences.Editor editor = bd.edit();
@@ -232,8 +248,10 @@ public class LoginActivity extends FragmentActivity {
                     editor.commit();
 
 
-
+                    // currentTime = checkDate
                     Date currentTime = Calendar.getInstance().getTime();
+                    long currentMillis = Calendar.getInstance().getTimeInMillis();
+                    Date checkDate = new Date (currentMillis);
 
 
                     String t = text.getText().toString();
