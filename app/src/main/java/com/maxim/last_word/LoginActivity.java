@@ -190,6 +190,10 @@ public class LoginActivity extends FragmentActivity {
             if (hasVisited) {
                 text.setText(bd.getString("textlastword", ""));
                 date_view.setText(bd.getString("lastdate", ""));
+
+                if (bd.getString("lastdate", "")){
+
+                }
             }
 
             date_view = v.findViewById(R.id.textView);
