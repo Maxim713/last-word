@@ -5,11 +5,24 @@
     android:orientation="vertical"
     tools:context=".LoginActivity">
 
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <EditText
+        android:id="@+id/text_lastword"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:text="@string/text_lastword" />
+
     <Button
         android:id="@+id/continue_button"
         style="@style/Button"
         android:layout_marginTop="16dp"
-        android:text="@string/continue_using_app"/>
+        android:text="@string/continue_button" />
 
     <Button
         android:id="@+id/logout"

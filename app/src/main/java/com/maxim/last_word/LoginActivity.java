@@ -32,12 +32,13 @@ public class LoginActivity extends FragmentActivity {
      * @see <a href="https://vk.com/dev/permissions">vk.com api permissions documentation</a>
      */
     private static final String[] sMyScope = new String[]{
-            VKScope.FRIENDS,
-            VKScope.WALL,
-            VKScope.PHOTOS,
-            VKScope.NOHTTPS,
-            VKScope.MESSAGES,
-            VKScope.DOCS
+            //VKScope.FRIENDS,
+            VKScope.WALL
+            //,
+            //VKScope.PHOTOS,
+            //VKScope.NOHTTPS,
+            //VKScope.MESSAGES,
+            //VKScope.DOCS
     };
 
     @Override
