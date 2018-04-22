@@ -212,7 +212,7 @@ public class LoginActivity extends FragmentActivity {
 
                         String first_name = jsonObject.getString("first_name");
                         String last_name = jsonObject.getString("last_name");
-                        String screen_name = jsonObject.getString("screen_name");
+                        //String screen_name = jsonObject.getString("screen_name");
                         status = jsonObject.getString("status");
                         temp = first_name + " " + last_name;
                     } catch (JSONException e) {
