@@ -4,7 +4,9 @@ package com.maxim.last_word;
  * Created by Максим on 22.04.2018.
  */
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -14,12 +16,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
 import com.vk.sdk.VKSdk;
 import com.vk.sdk.api.VKError;
+
+import java.util.Date;
 
 
 /**
@@ -29,7 +35,8 @@ import com.vk.sdk.api.VKError;
 public class LoginActivity extends FragmentActivity {
 
     private boolean isResumed = false;
-
+    private static SharedPreferences bd;
+    public static boolean hasVisited;
     /**
      * Scope is set of required permissions for your application
      *
@@ -48,6 +55,13 @@ public class LoginActivity extends FragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        bd = getSharedPreferences("savedStrings", Context.MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("savedStrings",
+                Context.MODE_PRIVATE);
+        // проверяем, первый ли раз открывается программа
+        hasVisited = sp.getBoolean("hasVisited", false);
+
         setContentView(R.layout.activity_start);
         VKSdk.wakeUpSession(this, new VKCallback<VKSdk.LoginState>() {
             @Override
@@ -144,7 +158,7 @@ public class LoginActivity extends FragmentActivity {
         public LoginFragment() {
             super();
         }
-
+        //bd = getSharedPreferences("savedStrings", Context.MODE_PRIVATE);
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_login, container, false);
@@ -158,22 +172,37 @@ public class LoginActivity extends FragmentActivity {
         }
 
     }
-
+    public static EditText text;
+    public static TextView date_view;
     public static class LogoutFragment extends android.support.v4.app.Fragment {
         public LogoutFragment() {
             super();
 
         }
 
-        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_logout, container, false);
+            text = v.findViewById(R.id.text_lastword);
 
+
+
+            if (hasVisited) {
+                text.setText(bd.getString("textlastword", ""));
+                date_view.setText(bd.getString("lastdate", ""));
+            }
+
+            date_view = v.findViewById(R.id.textView);
             v.findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Date date = new Date();
+                    date_view.setText(date.toString());
+                    SharedPreferences.Editor editor = bd.edit();
+                    editor.putString("textlastword", text.getText().toString());
+                    editor.putString("lastdate", date_view.getText().toString());
+                    editor.apply();
+                    editor.commit();
                 }});
 
             v.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {

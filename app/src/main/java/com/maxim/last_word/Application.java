@@ -4,6 +4,8 @@ package com.maxim.last_word;
  * Created by Максим on 22.04.2018.
  */
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import com.vk.sdk.VKAccessToken;
@@ -17,7 +19,7 @@ public class Application extends android.app.Application {
         public void onVKAccessTokenChanged(VKAccessToken oldToken, VKAccessToken newToken) {
             if (newToken == null) {
                 Toast.makeText(Application.this, "AccessToken invalidated", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(Application.this, MainActivity.class);
+                Intent intent = new Intent(Application.this, LoginActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(intent);
             }
@@ -30,4 +32,6 @@ public class Application extends android.app.Application {
         vkAccessTokenTracker.startTracking();
         VKSdk.initialize(this);
     }
+
+
 }
