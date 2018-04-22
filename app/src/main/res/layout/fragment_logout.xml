@@ -9,11 +9,6 @@
         android:orientation="vertical"
         tools:context=".LoginActivity">
 
-        <Chronometer
-            android:id="@+id/chronometer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
         <EditText
             android:id="@+id/text_lastword"
             android:layout_width="match_parent"

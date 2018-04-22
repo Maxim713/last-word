@@ -5,11 +5,15 @@ package com.maxim.last_word;
  */
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Chronometer;
 
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
@@ -158,17 +162,19 @@ public class LoginActivity extends FragmentActivity {
     public static class LogoutFragment extends android.support.v4.app.Fragment {
         public LogoutFragment() {
             super();
+
         }
 
+        @RequiresApi(api = Build.VERSION_CODES.N)
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_logout, container, false);
+
             v.findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //((LoginActivity) getActivity()).startMainActivity();
-                }
-            });
+
+                }});
 
             v.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
                 @Override
