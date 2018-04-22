@@ -1,33 +1,38 @@
-<LinearLayout
-    style="@style/Container"
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
-    tools:context=".LoginActivity">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/scroll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <Chronometer
-        android:id="@+id/chronometer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        style="@style/Container"
+        android:orientation="vertical"
+        tools:context=".LoginActivity">
 
-    <EditText
-        android:id="@+id/text_lastword"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textMultiLine"
-        android:text="@string/text_lastword" />
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:id="@+id/continue_button"
-        style="@style/Button"
-        android:layout_marginTop="16dp"
-        android:text="@string/continue_button" />
+        <EditText
+            android:id="@+id/text_lastword"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="textMultiLine"
+            android:text="@string/text_lastword" />
 
-    <Button
-        android:id="@+id/logout"
-        style="@style/Button"
-        android:layout_marginTop="16dp"
-        android:text="@string/logout"/>
-</LinearLayout>
+        <Button
+            android:id="@+id/continue_button"
+            style="@style/Button"
+            android:layout_marginTop="16dp"
+            android:text="@string/continue_button" />
 
+        <Button
+            android:id="@+id/logout"
+            style="@style/Button"
+            android:layout_marginTop="16dp"
+            android:text="@string/logout" />
+    </LinearLayout>
+
+</ScrollView>

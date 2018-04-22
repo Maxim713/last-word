@@ -116,7 +116,8 @@ public class LoginActivity extends FragmentActivity {
             @Override
             public void onResult(VKAccessToken res) {
                 // User passed Authorization
-                startMainActivity();
+                //startMainActivity();
+                showLogout();
             }
 
             @Override
@@ -131,9 +132,9 @@ public class LoginActivity extends FragmentActivity {
         }
     }
 
-    private void startMainActivity() {
-        startActivity(new Intent(this, MainActivity.class));
-    }
+//    private void startMainActivity() {
+//        startActivity(new Intent(this, MainActivity.class));
+//    }
 
     public static class LoginFragment extends android.support.v4.app.Fragment {
         public LoginFragment() {
@@ -165,7 +166,7 @@ public class LoginActivity extends FragmentActivity {
             v.findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((LoginActivity) getActivity()).startMainActivity();
+                    //((LoginActivity) getActivity()).startMainActivity();
                 }
             });
 
