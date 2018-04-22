@@ -4,10 +4,7 @@ package com.maxim.last_word;
  * Created by Максим on 22.04.2018.
  */
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.widget.EditText;
 import android.widget.Toast;
-
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKAccessTokenTracker;
 import com.vk.sdk.VKSdk;

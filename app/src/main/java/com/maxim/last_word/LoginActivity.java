@@ -7,19 +7,14 @@ package com.maxim.last_word;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.SystemClock;
-import android.support.annotation.RequiresApi;
 import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Chronometer;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.vk.sdk.VKAccessToken;
 import com.vk.sdk.VKCallback;
 import com.vk.sdk.VKScope;
@@ -32,10 +27,8 @@ import com.vk.sdk.api.VKRequest;
 import com.vk.sdk.api.VKResponse;
 import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKWallPostResult;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -48,7 +41,7 @@ public class LoginActivity extends FragmentActivity {
 
     private boolean isResumed = false;
     private static SharedPreferences bd;
-    //public static boolean hasVisited;
+
     /**
      * Scope is set of required permissions for your application
      *
@@ -71,8 +64,6 @@ public class LoginActivity extends FragmentActivity {
         bd = getPreferences(MODE_PRIVATE);
         SharedPreferences sp = getSharedPreferences("savedStrings",
                 Context.MODE_PRIVATE);
-        // проверяем, первый ли раз открывается программа
-        //hasVisited = sp.getBoolean("hasVisited", false);
 
         setContentView(R.layout.activity_start);
         VKSdk.wakeUpSession(this, new VKCallback<VKSdk.LoginState>() {
@@ -100,8 +91,6 @@ public class LoginActivity extends FragmentActivity {
             }
         });
 
-//        String[] fingerprint = VKUtil.getCertificateFingerprint(this, this.getPackageName());
-//        Log.d("Fingerprint", fingerprint[0]);
     }
 
     private void showLogout() {
@@ -162,9 +151,6 @@ public class LoginActivity extends FragmentActivity {
         }
     }
 
-//    private void startMainActivity() {
-//        startActivity(new Intent(this, MainActivity.class));
-//    }
 
     public static class LoginFragment extends android.support.v4.app.Fragment {
         public LoginFragment() {
@@ -184,6 +170,7 @@ public class LoginActivity extends FragmentActivity {
         }
 
     }
+
     public static EditText text;
     public static TextView date_view;
     public static class LogoutFragment extends android.support.v4.app.Fragment {
@@ -223,6 +210,7 @@ public class LoginActivity extends FragmentActivity {
             });
             return temp;
          }
+
         void makePost(VKAttachments att, String msg, final int ownerId) {
             VKParameters parameters = new VKParameters();
             parameters.put(VKApiConst.OWNER_ID, String.valueOf(ownerId));
@@ -246,7 +234,6 @@ public class LoginActivity extends FragmentActivity {
         }
 
 
-
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View v = inflater.inflate(R.layout.fragment_logout, container, false);
@@ -254,18 +241,34 @@ public class LoginActivity extends FragmentActivity {
             date_view = v.findViewById(R.id.textView);
 
             try {
-                text.setText((bd.getString("textlastword", "")).replace("name", getName()));
+                //text.setText((bd.getString("textlastword", "")).replace("name", getName()));
+                text.setText(bd.getString("textlastword", ""));
                 long lastd = bd.getLong("lastdate", 0);
                 Date last = new Date(lastd);
                 date_view.setText(last.toString());
+
+
+                if (Calendar.getInstance().getTimeInMillis()-86400000>lastd){
+
+                    VKAttachments vka = new VKAttachments();
+                    String myIDasString = VKSdk.getAccessToken().userId;
+                    int myID = Integer.parseInt(myIDasString);
+                    makePost(vka, bd.getString("textlastword", ""), myID);
+
+                }else{
+                    Toast toast = Toast.makeText(getContext(),
+                            "Поздравляю, вы еще живы! Подтвердите этот факт нажатием на кнопку. Если хотите, можете изменить текст.", Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+
             }
             catch(Exception e){
 
-            };
+                Toast toast = Toast.makeText(getContext(),
+                        "Добро пожаловать. Здесь вы можете написать завещание на случай, если не будете заходить в это приложение более суток.", Toast.LENGTH_SHORT);
+                toast.show();
 
-               // if (bd.getString("lastdate", "")){
-
-               // }
+            }
 
 
             date_view = v.findViewById(R.id.textView);
@@ -273,27 +276,7 @@ public class LoginActivity extends FragmentActivity {
                 @Override
                 public void onClick(View view) {
 
-                    /*Date date = new Date();
-                    date_view.setText(date.toString());
-                    SharedPreferences.Editor editor = bd.edit();
-                    editor.putString("textlastword", text.getText().toString());
-                    editor.putString("lastdate", date_view.getText().toString());
-                    editor.apply();
-                    editor.commit();*/
-
-
-
-                    /*text.setText(bd.getString("textlastword", ""));
-                    long curtime = bd.getLong("lastdate", 0);
-                    Date curdate = new Date(curtime);
-                    date_view.setText(curdate.toString());*/
-
-
-
-                    //Date currentTime = Calendar.getInstance().getTime();
                     long currentMillis = Calendar.getInstance().getTimeInMillis();
-                    //Date checkDate = new Date (currentMillis);
-
 
                     SharedPreferences.Editor ed = bd.edit();
                     ed.putString("textlastword", text.getText().toString());
@@ -301,13 +284,10 @@ public class LoginActivity extends FragmentActivity {
                     ed.putLong("lastdate", currentMillis);
                     ed.commit();
 
+                    Toast toast = Toast.makeText(getContext(),
+                            "Вы подтвердили, что это вы а не ваш кот, поздравляю. Если вы изменили текст, он сохранен.", Toast.LENGTH_SHORT);
+                    toast.show();
 
-
-                    VKAttachments vka = new VKAttachments();
-                    String myIDasString = VKSdk.getAccessToken().userId;
-                    int myID = Integer.parseInt(myIDasString);
-
-                    makePost(vka, "testing is 300 bucks", myID);
                 }});
 
             v.findViewById(R.id.logout).setOnClickListener(new View.OnClickListener() {
