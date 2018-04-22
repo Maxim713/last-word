@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Завещание</string>
     <integer name="com_vk_sdk_AppId">6457003</integer>
-    <string name="text_lastword">Завещание.\nЯ, находясь
+    <string name="text_lastword">Завещание.\nЯ находясь
         в здравом уме, твёрдой памяти и ясном сознании, действуя
         добровольно, понимая значение своих действий и не
         заблуждаясь, настоящим завещанием на случай моей
