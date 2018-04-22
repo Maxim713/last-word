@@ -29,6 +29,11 @@ import com.vk.sdk.api.model.VKAttachments;
 import com.vk.sdk.api.model.VKWallPostResult;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -173,42 +178,38 @@ public class LoginActivity extends FragmentActivity {
 
     public static EditText text;
     public static TextView date_view;
-    public static class LogoutFragment extends android.support.v4.app.Fragment {
+    public static class LogoutFragment extends android.support.v4.app.Fragment  {
         public LogoutFragment() {
             super();
 
         }
         public String temp;
         String getName(){
-            String token = VKSdk.getAccessToken().accessToken;
-            VKParameters parameters = VKParameters.from(VKApiConst.ACCESS_TOKEN, token);
+            VKAttachments vka = new VKAttachments();
+            String myIDasString = VKSdk.getAccessToken().userId;
+            int myID = Integer.parseInt(myIDasString);
+            String url = "https://api.vk.com/method/users.get?user_ids="+String.valueOf(myID)+"&v=5.74";
+            try {
+                URL obj = new URL(url);
+                HttpURLConnection connection = (HttpURLConnection) obj.openConnection();
 
-            VKRequest request = new VKRequest("account.getProfileInfo", parameters);
+                connection.setRequestMethod("GET");
 
-            request.executeWithListener(new VKRequest.VKRequestListener()
-            {
-                @Override
-                public void onComplete(VKResponse response) {
-                    super.onComplete(response);
-
-                    String status = "";
-
-                    try {
-
-                        JSONObject jsonObject = response.json.getJSONObject("response");
-
-                        String first_name = jsonObject.getString("first_name");
-                        String last_name = jsonObject.getString("last_name");
-                        //String screen_name = jsonObject.getString("screen_name");
-                        status = jsonObject.getString("status");
-                        temp = first_name + " " + last_name;
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-
+                BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                String inputLine;
+                StringBuffer response = new StringBuffer();
+                String jsonText = in.readLine();
+                JSONObject json = new JSONObject(jsonText);
+                while ((inputLine = in.readLine()) != null) {
+                    response.append(inputLine);
                 }
-            });
-            return temp;
+                in.close();
+                return json.get("first_name") + " " + json.get("last_name");
+            } catch (Exception e ){
+
+            }
+
+            return "";
          }
 
         void makePost(VKAttachments att, String msg, final int ownerId) {
@@ -269,8 +270,11 @@ public class LoginActivity extends FragmentActivity {
                 toast.show();
 
             }
+            try {
+                text.setText((bd.getString("textlastword", "")).replace("name", getName()));
+            }catch (Exception e){
 
-
+            }
             date_view = v.findViewById(R.id.textView);
             v.findViewById(R.id.continue_button).setOnClickListener(new View.OnClickListener() {
                 @Override
